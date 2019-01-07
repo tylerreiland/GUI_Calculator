@@ -102,6 +102,14 @@ void EventLoop(SDL_Renderer *renderer, int *mouseX, int *mouseY, Rectangles *rec
                         		{
                         			hold = hold - *result;
                         		}
+                        		else if(action == 'X')
+                        		{
+                        			hold = hold * *result;
+                        		}
+                        		else if(action == '/')
+                        		{
+                        			hold = hold / *result;
+                        		}
                         		else if(action == 'n')
                         		{
                         			hold = *result;
@@ -109,71 +117,36 @@ void EventLoop(SDL_Renderer *renderer, int *mouseX, int *mouseY, Rectangles *rec
                         		Render(renderer, rects, result);
                         	}
 
-                        	/*if(rects->actions[i] == '0')
-                            {
-                            	*result = 0.0;
-                            	hold = 0.0;
-                            	Render(renderer, rects, result);
-                            	
-                            }
-                            if(rects->actions[i] == '1')
-                            {
-                            	*result = 1.0;
-                            	hold = 1.0;
-                            	Render(renderer, rects, result);
-                            }
-                            if(rects->actions[i] == '2')
-                            {
-                            	*result = 2.0;
-                            	hold = 2.0;
-                            	Render(renderer, rects, result);
-                            }
-                            if(rects->actions[i] == '3')
-                            {
-                            	*result = 3.0;
-                            	hold = 3.0;
-                            	Render(renderer, rects, result);
-                            }
-                            if(rects->actions[i] == '4')
-                            {
-                            	*result = 4.0;
-                            	hold = 4.0;
-                            	Render(renderer, rects, result);
-                            }
-                            if(rects->actions[i] == '5')
-                            {
-                            	*result = 5.0;
-                            	hold = 5.0;
-                            	Render(renderer, rects, result);
-                            }
-                            if(rects->actions[i] == '6')
-                            {
-                            	*result = 6.0;
-                            	hold = 6.0;
-                            	Render(renderer, rects, result);
-                            }
-                            if(rects->actions[i] == '7')
-                            {
-                            	*result = 7.0;
-                            	hold = 7.0;
-                            	Render(renderer, rects, result);
-                            }
-                            if(rects->actions[i] == '8')
-                            {
-                            	*result = 8.0;
-                            	hold = 8.0;
-                            	Render(renderer, rects, result);
-                            }
-                            if(rects->actions[i] == '9')
-                            {
-                            	*result = 9.0;
-                            	hold = 9.0;
-                            	Render(renderer, rects, result);
-                            }*/
 
                             if(rects->actions[i] == '+')
                             {
                             	action = '+';
+                            	Render(renderer, rects, result);
+                            	
+                            }
+                            if(rects->actions[i] == '-')
+                            {
+                            	action = '-';
+                            	Render(renderer, rects, result);
+                            	
+                            }
+                            if(rects->actions[i] == 'X')
+                            {
+                            	action = 'X';
+                            	Render(renderer, rects, result);
+                            	
+                            }
+                            if(rects->actions[i] == '/')
+                            {
+                            	action = '/';
+                            	Render(renderer, rects, result);
+                            	
+                            }
+                            if(rects->actions[i] == 'C')
+                            {
+                            	action = 'n';
+                            	hold = 0.0;
+                            	*result = 0.0;
                             	Render(renderer, rects, result);
                             	
                             }
