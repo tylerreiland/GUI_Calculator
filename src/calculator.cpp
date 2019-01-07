@@ -38,7 +38,7 @@ int main(int argc, char **argv)
     SDL_Window *window;
     SDL_Renderer *renderer;
     
-    if(SDL_CreateWindowAndRenderer(800, 600, 0, &window, &renderer) != 0)
+    if(SDL_CreateWindowAndRenderer(500, 605, 0, &window, &renderer) != 0)
     {
         fprintf(stderr, "Error: could not create window\n");
         exit(1);
@@ -226,14 +226,14 @@ void Render(SDL_Renderer *renderer, Rectangles *rects, std::string *result)
     SDL_Rect resultBar;
     resultBar.x = 20;
     resultBar.y = 15;
-    resultBar.w = 750;
+    resultBar.w = 460;
     resultBar.h = 100;
     SDL_RenderFillRect(renderer, &resultBar);
-    name = RasterizeText(*result, "./OpenSans/OpenSans-Regular.ttf", 25, color, renderer);
+    name = RasterizeText(*result, "./OpenSans/OpenSans-Bold.ttf", 35, color, renderer);
     SDL_QueryTexture(name, &format, &access, &width, &height);
     SDL_Rect resultText;
     resultText.x = 50;
-    resultText.y = 50;
+    resultText.y = 40;
     resultText.w = width;
     resultText.h = height;
     SDL_RenderCopy(renderer, name, NULL, &resultText);
@@ -250,9 +250,10 @@ void Render(SDL_Renderer *renderer, Rectangles *rects, std::string *result)
     int numberX = 60;
     int numberY = 170;
 
-
+    //ORDERING OF BUTTONS
     std::string values;
     values = "987X654/321+0C-=";
+
     int pos = 0;
     for(int i=0; i<4; i++)
     {
