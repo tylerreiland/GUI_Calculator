@@ -111,7 +111,7 @@ void EventLoop(SDL_Renderer *renderer, int *mouseX, int *mouseY, Rectangles *rec
 
                             else if(rects->actions[i] == '+')
                             {
-                            	hold = stof(*result);
+                            	hold += stof(*result);
                             	action = '+';
                             	placeInString = (*result).begin();
 								startOfString = true;
@@ -120,7 +120,7 @@ void EventLoop(SDL_Renderer *renderer, int *mouseX, int *mouseY, Rectangles *rec
                             }
                             else if(rects->actions[i] == '-')
                             {
-                            	hold = stof(*result);
+                            	hold += stof(*result);
                             	action = '-';
                             	placeInString = (*result).begin();
 								startOfString = true;
@@ -129,7 +129,7 @@ void EventLoop(SDL_Renderer *renderer, int *mouseX, int *mouseY, Rectangles *rec
                             }
                             else if(rects->actions[i] == 'X')
                             {
-                            	hold = stof(*result);
+                            	hold += stof(*result);
                             	action = 'X';
                             	placeInString = (*result).begin();
 								startOfString = true;
@@ -138,7 +138,7 @@ void EventLoop(SDL_Renderer *renderer, int *mouseX, int *mouseY, Rectangles *rec
                             }
                             else if(rects->actions[i] == '/')
                             {
-                            	hold = stof(*result);
+                            	hold += stof(*result);
                             	action = '/';
                             	placeInString = (*result).begin();
 								startOfString = true;
@@ -182,6 +182,7 @@ void EventLoop(SDL_Renderer *renderer, int *mouseX, int *mouseY, Rectangles *rec
 								startOfString = true;
                             	*result = std::to_string(hold);
                             	Render(renderer, rects, result);
+                            	hold = 0.0;
                             	
                             }
 
