@@ -21,8 +21,8 @@ typedef struct Rectangles{
     std::vector<char> actions;
 }Rectangles;
 
-void EventLoop(SDL_Renderer *renderer, int *mouseX, int *mouseY, Rectangles *rects, float *result);
-void Render(SDL_Renderer *renderer, Rectangles *rects, float *result);
+void EventLoop(SDL_Renderer *renderer, int *mouseX, int *mouseY, Rectangles *rects, std::string *result);
+void Render(SDL_Renderer *renderer, Rectangles *rects, std::string *result);
 SDL_Texture* RasterizeText(std::string text, std::string font_file, int font_size, SDL_Color color, SDL_Renderer *renderer);
 bool PointInRectangle(int *mouseX, int *mouseY, int rectX, int rectY, int rectW, int rectH);
 
@@ -50,7 +50,7 @@ int main(int argc, char **argv)
     int mouseY = 0;
     Rectangles rects;
 
-    float result = 0.0;
+    std::string result = "0.000000";
 
     Render(renderer, &rects, &result);
     EventLoop(renderer, &mouseX, &mouseY, &rects, &result);
@@ -64,14 +64,15 @@ int main(int argc, char **argv)
 }
 
 
-void EventLoop(SDL_Renderer *renderer, int *mouseX, int *mouseY, Rectangles *rects, float *result)
+void EventLoop(SDL_Renderer *renderer, int *mouseX, int *mouseY, Rectangles *rects, std::string *result)
 {
     bool running = true;
     SDL_Event event;
     
     float hold = 0.0;
 	char action = 'n';
-
+	std::string::iterator placeInString = (*result).begin();
+	bool startOfString = true;
     
     while(running)
     {
@@ -91,69 +92,93 @@ void EventLoop(SDL_Renderer *renderer, int *mouseX, int *mouseY, Rectangles *rec
                         {
                         	if(isdigit(rects->actions[i]))
                         	{
+                        		if(startOfString)
+                        		{
+                        			*result = "0.000000";
+                        			(*result)[0] = rects->actions[i];
+                        			placeInString++;
+                        			startOfString = false;
+                        		}
+                        		else
+                        		{
+                        			(*result).insert(placeInString, rects->actions[i]);
+                        			placeInString ++;
+                        		}
 
-                        		*result = (float) rects->actions[i] - '0';
 
                         		if(action == '+')
                         		{
-                        			hold = hold + *result;
+                        			hold = hold + stof(*result);
                         		}
                         		else if(action == '-')
                         		{
-                        			hold = hold - *result;
+                        			hold = hold - stof(*result);
+                        			printf("TEST: %3f\n\n\n", hold);
                         		}
                         		else if(action == 'X')
                         		{
-                        			hold = hold * *result;
+                        			hold = hold * stof(*result);
                         		}
                         		else if(action == '/')
                         		{
-                        			hold = hold / *result;
+                        			hold = hold / stof(*result);
                         		}
                         		else if(action == 'n')
                         		{
-                        			hold = *result;
+                        			hold = stof(*result);
                         		}
                         		Render(renderer, rects, result);
                         	}
 
 
-                            if(rects->actions[i] == '+')
+                            else if(rects->actions[i] == '+')
                             {
                             	action = '+';
+                            	placeInString = (*result).begin();
+								startOfString = true;
                             	Render(renderer, rects, result);
                             	
                             }
-                            if(rects->actions[i] == '-')
+                            else if(rects->actions[i] == '-')
                             {
                             	action = '-';
+                            	placeInString = (*result).begin();
+								startOfString = true;
                             	Render(renderer, rects, result);
                             	
                             }
-                            if(rects->actions[i] == 'X')
+                            else if(rects->actions[i] == 'X')
                             {
                             	action = 'X';
+                            	placeInString = (*result).begin();
+								startOfString = true;
                             	Render(renderer, rects, result);
                             	
                             }
-                            if(rects->actions[i] == '/')
+                            else if(rects->actions[i] == '/')
                             {
                             	action = '/';
+                            	placeInString = (*result).begin();
+								startOfString = true;
                             	Render(renderer, rects, result);
                             	
                             }
-                            if(rects->actions[i] == 'C')
+                            else if(rects->actions[i] == 'C')
                             {
                             	action = 'n';
                             	hold = 0.0;
-                            	*result = 0.0;
+                            	*result = "0.000000";
+                            	placeInString = (*result).begin();
+								startOfString = true;
                             	Render(renderer, rects, result);
                             	
                             }
-                            if(rects->actions[i] == '=')
+                            else if(rects->actions[i] == '=')
                             {
                             	action = 'n';
-                            	*result = hold;
+                            	placeInString = (*result).begin();
+								startOfString = true;
+                            	*result = std::to_string(hold);
                             	Render(renderer, rects, result);
                             	
                             }
@@ -172,7 +197,7 @@ void EventLoop(SDL_Renderer *renderer, int *mouseX, int *mouseY, Rectangles *rec
     }
 }
 
-void Render(SDL_Renderer *renderer, Rectangles *rects, float *result)
+void Render(SDL_Renderer *renderer, Rectangles *rects, std::string *result)
 {
 	//fill the background
     SDL_SetRenderDrawColor(renderer, 170, 185, 196, SDL_ALPHA_OPAQUE);
@@ -201,7 +226,7 @@ void Render(SDL_Renderer *renderer, Rectangles *rects, float *result)
     resultBar.w = 750;
     resultBar.h = 100;
     SDL_RenderFillRect(renderer, &resultBar);
-    name = RasterizeText(std::to_string(*result), "./OpenSans/OpenSans-Regular.ttf", 25, color, renderer);
+    name = RasterizeText(*result, "./OpenSans/OpenSans-Regular.ttf", 25, color, renderer);
     SDL_QueryTexture(name, &format, &access, &width, &height);
     SDL_Rect resultText;
     resultText.x = 50;
