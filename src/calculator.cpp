@@ -43,6 +43,8 @@ int main(int argc, char **argv)
         fprintf(stderr, "Error: could not create window\n");
         exit(1);
     }
+
+    SDL_SetWindowTitle(window, "Calculator"); 
     
     TTF_Init();
     
