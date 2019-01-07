@@ -21,7 +21,7 @@ typedef struct Rectangles{
     std::vector<char> actions;
 }Rectangles;
 
-void EventLoop(SDL_Renderer *renderer, int *mouseX, int *mouseY, bool *pressed, Rectangles *rects, float *result);
+void EventLoop(SDL_Renderer *renderer, int *mouseX, int *mouseY, Rectangles *rects, float *result);
 void Render(SDL_Renderer *renderer, Rectangles *rects, float *result);
 SDL_Texture* RasterizeText(std::string text, std::string font_file, int font_size, SDL_Color color, SDL_Renderer *renderer);
 bool PointInRectangle(int *mouseX, int *mouseY, int rectX, int rectY, int rectW, int rectH);
@@ -48,13 +48,12 @@ int main(int argc, char **argv)
     
     int mouseX = 0;
     int mouseY = 0;
-    bool pressed = false;
     Rectangles rects;
 
     float result = 0.0;
 
     Render(renderer, &rects, &result);
-    EventLoop(renderer, &mouseX, &mouseY, &pressed, &rects, &result);
+    EventLoop(renderer, &mouseX, &mouseY, &rects, &result);
     
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
@@ -65,10 +64,14 @@ int main(int argc, char **argv)
 }
 
 
-void EventLoop(SDL_Renderer *renderer, int *mouseX, int *mouseY, bool *pressed, Rectangles *rects, float *result)
+void EventLoop(SDL_Renderer *renderer, int *mouseX, int *mouseY, Rectangles *rects, float *result)
 {
     bool running = true;
     SDL_Event event;
+    
+    float hold = 0.0;
+	char action = 'n';
+
     
     while(running)
     {
@@ -82,13 +85,108 @@ void EventLoop(SDL_Renderer *renderer, int *mouseX, int *mouseY, bool *pressed, 
             case SDL_MOUSEBUTTONDOWN:
                 if (event.button.button == SDL_BUTTON_LEFT)
                 {
-                    *pressed = true;
                     for(int i=0; i<rects->x.size(); i++)
                     {
                         if(PointInRectangle(mouseX, mouseY, rects->x[i], rects->y[i], rects->w[i], rects->h[i]) )
                         {
-                            //*path = *path + "/" + rects->actio[i];
-                            Render(renderer, rects, result);
+                        	if(isdigit(rects->actions[i]))
+                        	{
+
+                        		*result = (float) rects->actions[i] - '0';
+
+                        		if(action == '+')
+                        		{
+                        			hold = hold + *result;
+                        		}
+                        		else if(action == '-')
+                        		{
+                        			hold = hold - *result;
+                        		}
+                        		else if(action == 'n')
+                        		{
+                        			hold = *result;
+                        		}
+                        		Render(renderer, rects, result);
+                        	}
+
+                        	/*if(rects->actions[i] == '0')
+                            {
+                            	*result = 0.0;
+                            	hold = 0.0;
+                            	Render(renderer, rects, result);
+                            	
+                            }
+                            if(rects->actions[i] == '1')
+                            {
+                            	*result = 1.0;
+                            	hold = 1.0;
+                            	Render(renderer, rects, result);
+                            }
+                            if(rects->actions[i] == '2')
+                            {
+                            	*result = 2.0;
+                            	hold = 2.0;
+                            	Render(renderer, rects, result);
+                            }
+                            if(rects->actions[i] == '3')
+                            {
+                            	*result = 3.0;
+                            	hold = 3.0;
+                            	Render(renderer, rects, result);
+                            }
+                            if(rects->actions[i] == '4')
+                            {
+                            	*result = 4.0;
+                            	hold = 4.0;
+                            	Render(renderer, rects, result);
+                            }
+                            if(rects->actions[i] == '5')
+                            {
+                            	*result = 5.0;
+                            	hold = 5.0;
+                            	Render(renderer, rects, result);
+                            }
+                            if(rects->actions[i] == '6')
+                            {
+                            	*result = 6.0;
+                            	hold = 6.0;
+                            	Render(renderer, rects, result);
+                            }
+                            if(rects->actions[i] == '7')
+                            {
+                            	*result = 7.0;
+                            	hold = 7.0;
+                            	Render(renderer, rects, result);
+                            }
+                            if(rects->actions[i] == '8')
+                            {
+                            	*result = 8.0;
+                            	hold = 8.0;
+                            	Render(renderer, rects, result);
+                            }
+                            if(rects->actions[i] == '9')
+                            {
+                            	*result = 9.0;
+                            	hold = 9.0;
+                            	Render(renderer, rects, result);
+                            }*/
+
+                            if(rects->actions[i] == '+')
+                            {
+                            	action = '+';
+                            	Render(renderer, rects, result);
+                            	
+                            }
+                            if(rects->actions[i] == '=')
+                            {
+                            	action = 'n';
+                            	*result = hold;
+                            	Render(renderer, rects, result);
+                            	
+                            }
+
+                            break;
+                            
                         }
                     }
                 }
