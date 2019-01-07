@@ -105,34 +105,13 @@ void EventLoop(SDL_Renderer *renderer, int *mouseX, int *mouseY, Rectangles *rec
                         			placeInString ++;
                         		}
 
-
-                        		if(action == '+')
-                        		{
-                        			hold = hold + stof(*result);
-                        		}
-                        		else if(action == '-')
-                        		{
-                        			hold = hold - stof(*result);
-                        			printf("TEST: %3f\n\n\n", hold);
-                        		}
-                        		else if(action == 'X')
-                        		{
-                        			hold = hold * stof(*result);
-                        		}
-                        		else if(action == '/')
-                        		{
-                        			hold = hold / stof(*result);
-                        		}
-                        		else if(action == 'n')
-                        		{
-                        			hold = stof(*result);
-                        		}
                         		Render(renderer, rects, result);
                         	}
 
 
                             else if(rects->actions[i] == '+')
                             {
+                            	hold = stof(*result);
                             	action = '+';
                             	placeInString = (*result).begin();
 								startOfString = true;
@@ -141,6 +120,7 @@ void EventLoop(SDL_Renderer *renderer, int *mouseX, int *mouseY, Rectangles *rec
                             }
                             else if(rects->actions[i] == '-')
                             {
+                            	hold = stof(*result);
                             	action = '-';
                             	placeInString = (*result).begin();
 								startOfString = true;
@@ -149,6 +129,7 @@ void EventLoop(SDL_Renderer *renderer, int *mouseX, int *mouseY, Rectangles *rec
                             }
                             else if(rects->actions[i] == 'X')
                             {
+                            	hold = stof(*result);
                             	action = 'X';
                             	placeInString = (*result).begin();
 								startOfString = true;
@@ -157,6 +138,7 @@ void EventLoop(SDL_Renderer *renderer, int *mouseX, int *mouseY, Rectangles *rec
                             }
                             else if(rects->actions[i] == '/')
                             {
+                            	hold = stof(*result);
                             	action = '/';
                             	placeInString = (*result).begin();
 								startOfString = true;
@@ -175,6 +157,26 @@ void EventLoop(SDL_Renderer *renderer, int *mouseX, int *mouseY, Rectangles *rec
                             }
                             else if(rects->actions[i] == '=')
                             {
+                            	if(action == '+')
+                        		{
+                        			hold = hold + stof(*result);
+                        		}
+                        		else if(action == '-')
+                        		{
+                        			hold = hold - stof(*result);
+                        		}
+                        		else if(action == 'X')
+                        		{
+                        			hold = hold * stof(*result);
+                        		}
+                        		else if(action == '/')
+                        		{
+                        			hold = hold / stof(*result);
+                        		}
+                        		else if(action == 'n')
+                        		{
+                        			hold = stof(*result);
+                        		}
                             	action = 'n';
                             	placeInString = (*result).begin();
 								startOfString = true;
