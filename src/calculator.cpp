@@ -254,7 +254,7 @@ void Render(SDL_Renderer *renderer, Rectangles *rects, std::string *result)
 
     //ORDERING OF BUTTONS
     std::string values;
-    values = "987X654/321+0C-=";
+    values = "789X456/123+0C-=";
 
     int pos = 0;
     for(int i=0; i<4; i++)
